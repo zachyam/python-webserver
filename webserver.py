@@ -2,7 +2,7 @@ import socket
 import StringIO
 import sys
 
-class WGIServer(object):
+class WSGIServer(object):
 	address_family = socket.AF_INET
 	socket_type = socket.SOCK_STREAM
 	request_queue_size = 1
@@ -34,7 +34,7 @@ class WGIServer(object):
 			#handle one request and close the connection. Then loop over to wait for another client connection
 			self.handle_one_request()
 	
-	def handle_one_request():
+	def handle_one_request(self):
 		self.request_data = request_data = self.client_connection.recv(1024)
 		#print formatted request data a la 'curl -v'
 		print(''.join(
@@ -84,7 +84,7 @@ class WGIServer(object):
 		]
 		self.headers_set = [status, response_headers + server_headers]
 
-	def finish_response(self, result)
+	def finish_response(self, result):
 		try:
 			status, response_headers = self.headers_set
 			response = 'HTTP/1.1 {status}\r\n'.format(status=status)
@@ -101,20 +101,20 @@ class WGIServer(object):
 		finally:
 			self.client_connection.close()
 	
-	SERVER_ADDRESS = (HOST, PORT) = '', 8888
+SERVER_ADDRESS = (HOST, PORT) = '', 8888
 	
-	def make_server(server_address, application):
-		server = WSGI(server_address)
-		server.set_app(application)
-		return server
+def make_server(server_address, application):
+	server = WSGIServer(server_address)
+	server.set_app(application)
+	return server
 
-	if __name__ == '__main__':
-		if len(sys.argv) < 2:
-			sys.exit('Provide a WSGI application object as module:callable')
-		app_path = sys.argv[1]
-		module, application = app_path.split(':')
-		module = __import__(module)
-		application = getattr(module, application)
-		httpd = make_server(SERVER_ADDRESS, application)
-		print('WSGIServer: Serving HTTP on port {port} ... \n'.format(port=PORT))
-		httpd.server_forever()
+if __name__ == '__main__':
+	if len(sys.argv) < 2:
+		sys.exit('Provide a WSGI application object as module:callable')
+	app_path = sys.argv[1]
+	module, application = app_path.split(':')
+	module = __import__(module)
+	application = getattr(module, application)
+	httpd = make_server(SERVER_ADDRESS, application)
+	print('WSGIServer: Serving HTTP on port {port} ... \n'.format(port=PORT))
+	httpd.serve_forever()
