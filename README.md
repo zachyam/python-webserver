@@ -7,15 +7,21 @@ This type of interface is known as a WSGIServer, and it is written in `webserver
 To run this demo:
 `git clone git@github.com:zyam/python-webserver.git`
 
-`cd python-webserver'
+`cd python-webserver`
 
 Make sure both Flask and Pyramid are installed locally. To do that:
 `[sudo] pip install virtualenv`
+
 `mkdir ~/envs`
+
 `virtualenv ~/envs/lsbaws/`
+
 `cd ~/envs/lsbaws/`
+
 `source bin/activate`
+
 `(lsbaws) $ pip install pyramid`
+
 `(lsbaws) $ pip install flask`
 
 Once installed, cd back into the repository
